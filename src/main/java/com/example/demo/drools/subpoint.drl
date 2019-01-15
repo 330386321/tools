@@ -1,0 +1,29 @@
+package com.example.demo.drools
+  
+import com.example.demo.drools.PointDomain;
+  
+rule subBackNumsPoint  
+    // 发生退货，扣减10分  
+    salience 10  
+    lock-on-active true  
+    when  
+        $pointDomain : PointDomain(backNums >= 1);
+                       PointDomain(backMondy >= 100);
+    then  
+        $pointDomain.setPoint($pointDomain.getPoint()-10);
+        $pointDomain.setUserName($pointDomain.getUserName() + "subBackNumsPoint");
+        Test.test($pointDomain.getUserName());
+        System.out.println("执行10");
+end  
+  
+rule subBackMondyPoint  
+    // 退货金额大于100，扣减100分  
+    salience 9  
+    lock-on-active true  
+    when  
+        $pointDomain : PointDomain(backMondy >= 100)  
+    then
+        $pointDomain.setPoint($pointDomain.getPoint()-10);
+        $pointDomain.setUserName($pointDomain.getUserName() + "subBackMondyPoint");
+        System.out.println("执行9");
+end
